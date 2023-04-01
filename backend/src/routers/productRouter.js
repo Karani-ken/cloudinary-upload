@@ -37,6 +37,16 @@ router.post('/image/:id', upload.single("productImage") ,async (req,res)=>{
         res.status(400).send(error);
     }
 })
+//get images
+router.get('/allproducts', async (req, res)=> {
+try {
+    const Products = await Product.find()
+    res.status(201).json(Products)
+} catch (error) {
+    
+}
+
+})
 
 
 

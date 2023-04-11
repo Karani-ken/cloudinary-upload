@@ -4,7 +4,7 @@ const {uploadToCloudinary, removeFromCloudinary} = require('../services/cloudina
 const router = new express.Router()
 const Product = require('../models/productModel')
 //create a product
-router.post('/product', async (req, res)=>{
+/*router.post('/product', async (req, res)=>{
     try {
         const product = new Product(req.body)
         await product.save();
@@ -13,23 +13,23 @@ router.post('/product', async (req, res)=>{
     } catch (error) {
         res.status(400).send(error)
     }
-});
+});*/
 
 // upload product Image
-router.post('/image/:id', upload.single("productImage") ,async (req,res)=>{
+router.post('/createproduct', upload.single("image") ,async (req,res)=>{
     try {
         //upload Image to cloudinary
         const data = await uploadToCloudinary(req.file.path, "test-one")
         //save Image url and publicID to the database
-        const saveImg = await Product.updateOne(
-            { _id: req.params.id},
-            {
-                $set:{
-                    imageUrl: data.url,
-                    publicId: data.public_id,
-                },
-            }
-        );
+        const imageUrl = data.url;
+        //save form data and imageurl to the database
+        const product = new Product({
+            name:req.body.name,
+            email: req.body.email,
+            image: imageUrl,
+        })
+       
+        await product.save();
 
         res.status(200).send("product image was uploaded successfully")
 

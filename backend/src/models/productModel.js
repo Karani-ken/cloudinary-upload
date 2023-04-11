@@ -1,18 +1,11 @@
 const mongoose = require('mongoose')
 
 const productSchema = new mongoose.Schema({
-    name:{
-        type:String,
-        required: true,
-        trim:true,
-    },
-    publicId:{
-        type:String,
-    },
-    imageUrl:{
-        type:String,
-        required: false
-    }
+  
+    name:{type:String, required: true},
+    email: {type:String, required:true},
+    image:{type:String, required:true},
+   
 },{timestamps:true})
 
 const Product = mongoose.model('Product', productSchema)
